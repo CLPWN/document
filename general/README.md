@@ -1,6 +1,6 @@
 # general
 - linux環境の導入  
-[kali](https://qiita.com/picato0511/items/e9ca05df5c3003e0bbe9)
+[kali](https://qiita.com/picato0511/items/e9ca05df5c3003e0bbe9)  
 [kali-tools](https://tools.kali.org/tools-listing)
 - c言語学習  
 [苦しんで覚えるc言語](https://9cguide.appspot.com/)
