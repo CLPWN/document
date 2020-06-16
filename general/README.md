@@ -10,6 +10,7 @@
 - [もっと簡単な説明](https://trap.jp/post/976/)
 ### 書籍の紹介等
 - [ＣＴＦを始めるときにおすすめな本](https://qiita.com/4hiziri/items/98b5e1f8b1824d0bc841)
+- [CTF初心者が考えるCTF入門](https://kinako-mochimochi.hatenablog.com/entry/2019/02/20/131937)
 
 ## 常設ctf
 最初にお勧め
