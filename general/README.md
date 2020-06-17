@@ -24,3 +24,6 @@
 
 - [overthewire-bandit](https://overthewire.org/wargames/bandit/bandit0.html)  
    ctf形式でlinuxの操作を学べる
+
+## 勉強会
+- [connpass](https://connpass.com/dashboard/)
