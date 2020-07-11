@@ -15,14 +15,14 @@
 
 ## <a id="ctfF"></a>CTFでのForensics
 CTFで出会うForensicsの分野を大きく分けて、独断と偏見で4つくらいになる。
-- **よく分からんファイルの解析**
+- **よく分からんファイルの解析**<br>
 What’s this file的なもの。シグネチャが壊れていたり、ファイルフォーマットがぐちゃぐちゃだったり、バイナリ的にファイルが混じっていたり、zipファイルの解凍に奮闘したり色々。<br><br>
-- **Steganography**
+- **Steganography**<br>
 主に画像ファイルに入れられた情報を探す。2,3年前まではツールを動かすのみで解ける問題が多かったが、今は画像のシグネチャやフォーマットからバイナリ構造まで把握できていないとチャレンジすら難しい問題が少なくない。音声ファイルを解析する場合もあるが、音声ファイルの問題はツール([audacity](https://www.audacityteam.org/))の機能が上手く扱えれば知識が無くとも解ける問題が多い。<br><br>
-- **Memory Forensics**
+- **Memory Forensics**<br>
 　マシンが動いているときのメモリダンプが与えられる。多くの問題は、Windows OS(XP以前)のメモリダンプである。よって、何が怪しいプロセスなのか見極めるために基本的なWindowsのプロセス関する知識を持っていることが望ましい。flagにたどり着くまでにReversingのような解析が含まれることがある。<br>
 　ツールは[Volatility](https://github.com/volatilityfoundation/volatility)のみ扱えれば良い。さらに、[Volatility](https://github.com/volatilityfoundation/volatility)の機能を多く理解できていればいるほど解答は楽になるようなことが多い。<br><br>
-- **Diskimage Forensics**
+- **Diskimage Forensics**<br>
 　マシンのディスクイメージを解析する。マシン全体だったり、ddイメージだったりするがファイル容量がデカい。まず、WindowsとLinuxのディレクトリ構造に関してある程度理解していなければ無駄に時間をかけてしまう。その上、どこに重要な情報がありそうか、怪しいプログラムが置かれそうな場所はどこなのか等の知識があることが望ましい。<br>
 　ツールは主に二つ、[FTK® Imager](https://accessdata.com/products-services/forensic-toolkit-ftk/ftkimager)か[Autopsy](https://www.autopsy.com/)のどちらかを用いることが多い。ただ目的のファイルを探し、確認・抽出のみを行う場合はFTK® Imagerで十分だが、その他にブラウザの履歴やイメージを取得したマシンの様々な痕跡を解析する必要がある場合はAutopsyの方が良い。ただ、Autopsyの解析スピードはマシンスペックに大きく依存する。<br><br><br><br>
  
