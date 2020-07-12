@@ -6,12 +6,12 @@
 3. [CTFでのForensics](#ctfF)
 
 ## <a id="prolog"></a>初めに
- ここでは主にCTFでの(Digital)Forensicsの話をする。何故こんな話をするかと言うと、CTFでのForensicsがDigital Forensicsにおける学びになるかは怪しいところ。要は、CTFでは本来のDigital Forensicsは学べないということを覚えておいて欲しい。所詮CTFはクイズゲームでeSportsのような側面があることを忘れてはいけない。なので、本来のDigital Forensicsが学びたい場合は[ENISA-Technical](https://www.enisa.europa.eu/topics/trainings-for-cybersecurity-specialists/online-training-material/technical-operational)等から触れるのが良い。CTFからのアプローチはあまりおススメしない。
+  ここでは主にCTFでの(Digital)Forensicsの話をする。何故こんな話をするかと言うと、CTFでのForensicsがDigital Forensicsにおける学びになるかは怪しいところ。要は、CTFでは本来のDigital Forensicsは学べないということを覚えておいて欲しい。所詮CTFはクイズゲームでeSportsのような側面があることを忘れてはいけない。なので、本来のDigital Forensicsが学びたい場合は[ENISA-Technical](https://www.enisa.europa.eu/topics/trainings-for-cybersecurity-specialists/online-training-material/technical-operational)等から触れるのが良い。CTFからのアプローチはあまりおススメしない。
 
 ## <a id="WIF"></a>What is Forensics ?
-　デジタルフォレンジックは、コンピュータに関連する痕跡の収集や解析のための技術を示す。具体的には、デバイスからのメモリダンプやディスクイメージ、怪しいプログラムやネットワーク上にある情報の解析を行うことである。これは主に企業のインシデントが発生した場合、事件・事故のデバイス調査に用いられる。<br><br>
- CTFにおいては主に、ファイル解析、Steganography、Memory Forensics、Diskimage Forensicsが出題される。プログラムの解析はReversing、ネットワーク解析はNetworkという括りになっている。本来これら全ては、デジタルフォレンジックの一部である。<br><br>
- 加えて、多くのCTFにおいてForensicsはあまり重要視されておらず問題の質は良くない。Miscと区別がつかないような出題の仕方がほとんどを占める。CTF全体を楽しむ場合は、Forensicsは主要ツールのみ把握しておき、あまり学習に時間を割く必要はないのではないだろうか。Digital Forensicsに踏み込んでいくことはCTFから離れることを意味すると考えている。<br><br>
+  デジタルフォレンジックは、コンピュータに関連する痕跡の収集や解析のための技術を示す。具体的には、デバイスからのメモリダンプやディスクイメージ、怪しいプログラムやネットワーク上にある情報の解析を行うことである。これは主に企業のインシデントが発生した場合、事件・事故のデバイス調査に用いられる。<br><br>
+  CTFにおいては主に、ファイル解析、Steganography、Memory Forensics、Diskimage Forensicsが出題される。プログラムの解析はReversing、ネットワーク解析はNetworkという括りになっている。本来これら全ては、デジタルフォレンジックの一部である。<br><br>
+  加えて、多くのCTFにおいてForensicsはあまり重要視されておらず問題の質は良くない。Miscと区別がつかないような出題の仕方がほとんどを占める。CTF全体を楽しむ場合は、Forensicsは主要ツールのみ把握しておき、あまり学習に時間を割く必要はないのではないだろうか。Digital Forensicsに踏み込んでいくことはCTFから離れることを意味すると考えている。<br><br>
 
 ## <a id="ctfF"></a>CTFでのForensics
 CTFで出会うForensicsの分野を大きく分けて、独断と偏見で4つくらいになる。
