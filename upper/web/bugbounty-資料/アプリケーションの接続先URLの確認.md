@@ -45,10 +45,7 @@ https://www.securesky-tech.com/column/naruhodo/02.html#import-root-ca-for-win
 ## burpにて通信確認
 証明書の問題が解決されたのでburp suite上で通信の確認ができる。
 
-![](https://i.imgur.com/tUFqdsL.png)
-
-![](https://i.imgur.com/evYWzYT.png)
-
+![](https://i.imgur.com/9JmrN0Q.png)
 
 ###  エンドポイント確認
 先ほどの履歴を見ると、下のようなURLがエンドポイントとなる。
