@@ -3,3 +3,4 @@
 情報が氾濫してきたらフォルダとか纏めるけど、とりあえずmdで投げて。
 
 - [nvmeのssdの削除方法](./nvme-ssd-erase.md)
+- [tailscaleでリモートアクセスの実現](./tail-scale.md)
