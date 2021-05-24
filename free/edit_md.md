@@ -112,6 +112,9 @@ int main(){
 ![画像3](https://www.mozilla.org/media/img/firefox/new/desktop/screen-high-res.76867fcad223.png) <-画像のアドレスを貼ってもOK
 ```
 
+![画像1](test1.png) 
+![画像2](../lower/pwn/test2.png) 
+![画像3](https://www.mozilla.org/media/img/firefox/new/desktop/screen-high-res.76867fcad223.png)
 ## 表組み
 ```
 |header1|header2|header3|
