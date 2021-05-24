@@ -63,20 +63,19 @@ markdownを使ってgithubに資料を投稿して行くと良い感じになり
 インストールコマンドは `gem install hoge` です
 
 
-```
-```c <-言語名
-int main(){
-  return 0;
-}
-```
-```
+> ```ruby
+> require 'redcarpet'
+> markdown = Redcarpet.new("Hello World!")
+> puts markdown.to_html
+> ```
 
 
-```c
-int main(){
-  return 0;
-}
+```ruby
+require 'redcarpet'
+markdown = Redcarpet.new("Hello World!")
+puts markdown.to_html
 ```
+
 
 ## 文字装飾
 ```
