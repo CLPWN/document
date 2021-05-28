@@ -1,6 +1,6 @@
 # Introductory_Networking
 
-ハンズオン: https://tryhackme.com/room/introtonetworking
+参考&ハンズオン: https://tryhackme.com/room/introtonetworking
 
 ## OSI参照モデル
 |階層|OSI参照モデル|
@@ -56,7 +56,7 @@ TCPはコネクション型プロトコル（通信相手の応答があって�
 1. 接続を確立しようとすると、まず、接続を初期化することを示す特別な要求がリモート サーバーに送信されます。この要求にはSYN (short for synchronise) ビットと呼ばれるものが含まれています。
 2. サーバーは SYN ビットを含むパケットと、ACK(acknowledgement)ビットで応答します。最後に、コンピュータは ACK ビットを含むパケットを単独で送信し、接続が正常にセットアップされたことを確認します。
 3. 3方向ハンドシェイクが正常に完了すると、データは 2 台のコンピュータ間で確実に転送されます。(送信時に失われたり破損したりするデータは再送信される)
-![](ni-1.png)
+![](png/ni-2.png)
 
 ## Ping コマンド
 ping コマンドは、リモート リソースへの接続が可能かどうかをテストするときに使用します。
