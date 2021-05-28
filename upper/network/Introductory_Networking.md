@@ -1,6 +1,6 @@
 # Introductory_Networking
 
-ハンズオン: https://tryhackme.com/room/introtonetworking
+参考&ハンズオン: https://tryhackme.com/room/introtonetworking
 
 ## OSI参照モデル
 |階層|OSI参照モデル|
