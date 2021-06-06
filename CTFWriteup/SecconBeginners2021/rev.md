@@ -123,13 +123,13 @@ cmp al, <文字のASCIIコード>
 
 端末を2つ用意し、片方でchildrenを、もう片方でpsを実行。
 
-!()[child1.png]
+!(画像1)[child1.png]
 
 ps側で、./childrenプロセスが子プロセス([children])を生成していることを確認できる。
 
 そこで、子プロセスのpid(ここでは693)を回答。
 
-!()[child2.png]
+!(画像2)[child2.png]
 
 次の子プロセスpidを求められるので、もう一度ps auxfを実行し、新たな子プロセスのpidを回答(ここでは695)。
 
