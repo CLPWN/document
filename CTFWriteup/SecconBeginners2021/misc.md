@@ -40,4 +40,17 @@ git checkout 7387392 .
 
 lsコマンドでflag.txtが存在することを確認できる。
 
+## Mail Address Validator
+ReDoSの脆弱性。正規表現チェックの落とし穴
+https://speakerdeck.com/expajp/sofalsezheng-gui-biao-xian-yi-yi-ari-redosnituite?slide=12
 
+正規表現チェックがあるので変な記号や一般的なアドレスフォーマット(example@domain.com)に従っていないアドレスははじかれる。
+
+ただ，学生メール(x00x000x@mail.cc.niigata-u.ac.jp)のように， .xxx.xxx.xxx というメールアドレスも存在し，文法上でも正しい。
+ただ， ".xxx"の部分が多ければ多いほどチェックの行程が多くなるので，
+
+xxx@xxx.xx.xx.xx.xx.xx.xx.xx.xx
+
+のようなアドレスを打つと組み合わせが爆発して処理落ちする。
+
+ソースコード上，処理落ちでタイムアウトさせればFLAGが表示される。
