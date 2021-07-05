@@ -10,7 +10,7 @@
 #include<string.h>
 #include<stdio.h>
 
-int main(int argc, *char argv[]){
+int main(int argc, char *argv[]){
     char str1[]="def";
     char str2[]="abc";
 
