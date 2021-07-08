@@ -117,13 +117,15 @@ struct Cock: Bird {
 $ objdump -d -M intel birdcage | c++filt | grep sing
 ```
 
-## 
+## Birdcageの脆弱性
 
 birdcage の脆弱性はソースコードの 35 行目の cin>>memory.data();が相当する。
 
-Cにおける gets 関数のような存在である。
+簡単に説明すると，Cにおける gets 関数のような存在である。
 
 実行速度とメモリの効率のため，string にバッファを持たせ、短い文字列であれば文字列のメモリ確保を不要にしているが，cin>>に char *を渡すと、cin は gets 関数のようにバッファサイズ以上の文字列を読み込んでしまう。
+
+(より詳細な説明は，テキストや https://github.com/melpon/qiita/tree/master/items/stdstring を参照してください)
 
 String 周辺のスタック構造は次の通りになる。
 
