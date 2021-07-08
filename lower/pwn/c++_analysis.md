@@ -109,6 +109,34 @@ struct Cock: Bird {
 
 また、子クラスのメソッド(継承先)にoverrideキーワードをつける。
 
+## C++でobjdumpを使う
+- C++プログラムを objdumpで逆アセンブルすると、関数名などのシンボルは_ZN4Cock4singEv のような形式になry。
+ - C++ では引数の違う関数を複数定義すること(オーバーロード)ができるため、シンボルに引数などの情報を含める必要がある名前修飾(name mangling)と呼ばれる仕組み 
+- c++filt コマンドを通すとソースコード中の表記で関数が表示されるので，可読性が高まる。
+```
+$ objdump -d -M intel birdcage | c++filt | grep sing
+```
+
+## 
+
+birdcage の脆弱性はソースコードの 35 行目の cin>>memory.data();が相当する。
+
+Cにおける gets 関数のような存在である。
+
+実行速度とメモリの効率のため，string にバッファを持たせ、短い文字列であれば文字列のメモリ確保を不要にしているが，cin>>に char *を渡すと、cin は gets 関数のようにバッファサイズ以上の文字列を読み込んでしまう。
+
+String 周辺のスタック構造は次の通りになる。
+
+|オフセット| サイズ| 名前| 内容|
+|---|---|---|---|
+|0x00| 0x08| _M_p| 文字列のポインタ(_M_local_buf)|
+|0x08 |0x08 |_M_string_length |文字列長|
+|0x10| 0x10| _M_local_buf| 文字列|
+
+- _M_local_buf に 0x10 超過の文字列を書き込むことで、後続のデータを改竄できる。
+- 後続の別の string の_M_p を書き換えれば、任意のアドレスの値を読み出すことが可能。
+
+
 ## 参考
 - 江添亮のC++入門 https://ezoeryou.github.io/cpp-intro/#class%E3%81%A8%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B9%E6%8C%87%E5%AE%9A
 - Malleus CTF Pwn 2nd Edition
