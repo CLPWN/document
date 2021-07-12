@@ -40,7 +40,7 @@ gdb-peda$ disas main
 # break *<アドレス(*0x........)>
 # break <関数>
 gdb-peda$ break main
-gdb-peda$ break *0x08048a04
+gdb-peda$ break *0x080491f0
 ```
 
 runコマンドで動かすと，設置したブレークポイントで停止。
