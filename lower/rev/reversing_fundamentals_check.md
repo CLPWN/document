@@ -102,6 +102,17 @@
  出力結果: clpwn
  ```
  
+ ### 正解例
+ ```
+#include <stdio.h>
+
+int main(){
+       char x[] = "clpwn";
+       puts(x);
+       return 0;
+}
+ ```
+ 
  
  ## 2問目 - if文
  ```
@@ -127,6 +138,18 @@
  
  ```
  出力結果: 5
+ ```
+ 
+  ### 正解例
+ ```
+#include <stdio.h>
+
+int main(void)
+{
+        int x = 5;
+        if (x>0) printf("%d",x);
+        return 0;
+}
  ```
  
  ## 3問目 - ループ
@@ -169,4 +192,18 @@
  
  ```
  出力結果: 123
+ ```
+ 
+  ### 正解例
+ ```
+#include <stdio.h>
+
+int main(void)
+{
+        int i;
+        for (i = 1;i <= 3;i++) {
+                printf("%d",i);
+        }
+        return 0;
+}
  ```
