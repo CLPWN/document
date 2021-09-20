@@ -1,6 +1,9 @@
-HTTPの基礎
+# HTTPの基礎
+
 HTTP(HyperText Transfer Protocol)とはHTMLなどの情報をやり取りするために使われるアプリケーション層の通信プロトコル（通信の約束事のようなもの）です。
+
 ![画像２](https://image.itmedia.co.jp/ait/articles/1703/29/wi-httpfig01.png)
+
 <https://www.atmarkit.co.jp/ait/articles/1703/29/news045.html>
 
 ![画像３](http://www.kogures.com/hitoshi/webtext/nw-http/request.gif)
@@ -25,7 +28,8 @@ HTTP(HyperText Transfer Protocol)とはHTMLなどの情報をやり取りする�
   - Accept、Accept-Language、Accept-Encoding、Accept-Charset  どのようなデータを受け取りたいのか、言語、文字コード、画像の種類 などの情報.
   - Content-Length  コンテンツの長さ
 
- ![画像4](http://www.kogures.com/hitoshi/webtext/nw-http/response.gif)
+![画像4](http://www.kogures.com/hitoshi/webtext/nw-http/response.gif)
+
 <http://www.kogures.com/hitoshi/webtext/nw-http/index.html>
 
 - HTTPステータスコード
@@ -35,16 +39,26 @@ HTTP(HyperText Transfer Protocol)とはHTMLなどの情報をやり取りする�
   - 400番台　クライアント側のエラー
   - 500番台　サーバー側のエラー
 
-Cookies
+## Cookies
+
 ![画像５](https://image.itmedia.co.jp/ait/articles/1704/20/l_wi-cookiefig01.png)
+
 <https://atmarkit.itmedia.co.jp/ait/articles/1704/20/news024.html>
+
 CookieとはWebサーバーがクライアントに預けておく小さなファイルのことです。
+
 CookieにはWebサーバーによって様々な情報が格納されます。具体例としてはユーザー名などやショッピングサイトの買い物かごの情報などの管理に利用されています。
 
-URLについて
+## URLについて
+
+```
 スキーム://ホスト名.ドメイン名(:ポート番号)/(パス名/)(ドキュメント名)
+```
+
 具体例として
+
 例1 <https://www.google.co.jp/>
+
 例2 <https://www.example.com/home/list.php?page=2&sort_by=price>
 
 - URL
