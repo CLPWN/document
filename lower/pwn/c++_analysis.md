@@ -234,7 +234,7 @@ fd と bk はリストの前後の要素を指すポインタ。 他の bin と�
 
 ものである。
 
-![](https://brain.cc.kogakuin.ac.jp/~kanamaru/lecture/MP/final/part06/img6.png)
+![ヒープとスタック](https://brain.cc.kogakuin.ac.jp/~kanamaru/lecture/MP/final/part06/img6.png "ヒープとスタックの図")
 
 攻略方法としては、前述のとおり string::_M_p を書き換えることで、GOT から libc のアドレスを読み出す。
 
