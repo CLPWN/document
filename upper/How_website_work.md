@@ -25,48 +25,51 @@ Javascriptとは複雑な機能（動的にコンテンツを更新）を実装�
 
 開始タグは要素の名前を山括弧で囲ったもの（今回はp）。どこから要素が始まっているのかを示す。
 ```
-`<p>`
+<p>
 ```
 
 終了タグは要素の名前の前に「/」が入っていること以外開始タグと同じ。どこで要素が終わっているのかを示す。
 ```
-`</p>`
+</p>
 ```
 
 ※コンテンツというのは要素の中身
 
 ページがHTML５ドキュメントであるという意味。異なるブラウザでもHTML５でページを解釈するというようにブラウザに指示をする。
 ```
-`<!DOCTYPE html>`
+<!DOCTYPE html>
 ```
 
 HTMLドキュメントにおいてルート（基点）となる要素。ルート要素ともいわれる。他のすべての要素はこの要素の子孫として配置しなければならない。`<html></html>`
 
 ページに関する情報が含まれる。
 ```
-`<head></head>`
+<head></head>
 ```
 
-HTMLドキュメントの本文を定義している。この本文内のコンテンツがブラウザに表示される。`<body>`
+HTMLドキュメントの本文を定義している。この本文内のコンテンツがブラウザに表示される。
+```
+<body>
+```
 
 見出しを定義する。
 ```
-`<h1></h1>,<h2></h2>,<h3></h3>,<h4></h4>,<h5></h5>,<h6></h6>`
-`<h1>`は一番大きい見出し、`<h2>`は二番目に大きい見出しというように番号を大きくしていくと徐々に見出しの大きさは小さくなる
+<h1></h1>,<h2></h2>,<h3></h3>,<h4></h4>,<h5></h5>,<h6></h6>
 ```
+`<h1>` は一番大きい見出し、`<h2>` は二番目に大きい見出しというように番号を大きくしていくと徐々に見出しの大きさは小さくなる
 
 段落を定義する要素。
 ```
-`<p></p>`
+<p></p>
 ```
 
 要素は他にも多くあり、画像のパスを指定するためのsrc属性
 ```
-`<img src="img/example.jpg">`
+<img src="img/example.jpg">
 ```
 や、要素のスタイルを設定するためのclass属性
 ```
-`<p class="bold-text">`
+<p class="bold-text">
 ```
 などがある。
 
@@ -81,21 +84,23 @@ HTMLでのコメント文のつけ方は
 
 Javascriptはwebページの機能を制御するために使われる。
 
-JavascriptがHTML上に記述されるとき`<script>Javascript</script>`
+JavascriptがHTML上に記述されるとき
+```
+<script>Javascript</script>
+```
 
 次のJavascriptではHTML上の "demo" というidで検索し、その要素の内容を"Hack the Planet!"に変更する。
 ```
-`document.getElementById("demo").innerHTML = "Hack the Planet";`
+document.getElementById("demo").innerHTML = "Hack the Planet";
 ```
 
 ここからは上のソースコードを少し詳しく説明する
 ```
+document はブラウザに読み込まれたwebページを指す。通常 document. のような形で連結させる。
 
-`document` はブラウザに読み込まれたwebページを指す。通常`document.`のような形で連結させる。
+getElementById( id ) はid属性がidである要素のElementオブジェクトを返す。なおid属性は大文字・小文字が区別される。
 
-`getElementById( id )` はid属性がidである要素のElementオブジェクトを返す。なおid属性は大文字・小文字が区別される。
-
-`innerHTML` はhtml要素のコンテンツを変更する。
+innerHTML はhtml要素のコンテンツを変更する。
 ```
 
 ## HTML injection
