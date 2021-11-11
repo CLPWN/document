@@ -65,6 +65,9 @@
 ## 逆アセンブラをPython3で作る
 ```disas.py
 #!/usr/bin/env python3
+
+#出典: https://tan.hatenadiary.jp/entry/2020/10/11/151926
+
 with open("seccon.bin", "rb") as f:
     pc = 0 # 命令カウンタ
     while True: 
