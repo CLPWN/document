@@ -3,8 +3,8 @@
 - 独自VM問題。
   - https://github.com/SECCON/SECCON2020_online_CTF/tree/main/reversing/scsbx_reversing
 
-> 参考ハンズオン:
-> https://tan.hatenadiary.jp/entry/2020/10/11/151926
+> 参考ハンズオン: <br>
+> https://tan.hatenadiary.jp/entry/2020/10/11/151926 <br>
 > https://hikalium.hatenablog.jp/entry/2020/10/11/205917)
 
 ## VMの動作について
