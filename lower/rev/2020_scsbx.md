@@ -372,3 +372,117 @@ with open("seccon.bin", "rb") as f:
 773     : STORE32
 774     : JMP
 ```
+## 処理の流れ
+
+大まかに
+
+- 作業用のメモリ領域[0xDEAD0000 - 0xDEAD1000)をmap
+- そのメモリ領域に符号化されたフラグを展開(0xDEAD004A から0x40B)
+- 0xDEAD0000番地に値0x06D35BCDを格納
+- ユーザーからの入力を受け取る(0x40バイト、0xDEAD000A~)
+- 上の擬似コードに書いたような処理を行って、ユーザーからの入力を符号化する
+  -　 dead0000 = 0x06D35BCD と4Bite入力をXOR演算(return ~(v ^ *dead0000))し、スタックのトップに格納
+  -　 dead0000の値は、演算終了ごとに dead0000 = ([dead0000] * 0x77F - 0x32A) % 0x0x305EB3EA をして更新
+- 符号化した入力(0xDEAD000Aからの0x40バイト)と、展開しておいた符号化済みのフラグ値(0xDEAD004Aからの0x40バイト)を比較
+  - 入力を8byte単位で処理し、計算結果が特定8byteに一致するか確認。それを0x40byte分繰り返す
+- それらが一致したらCorrect, 一致しなければWrongと出力
+```
+# フラグをメモリ上に展開
+# push 値指定 => push アドレス指定 => STOREで格納
+598     : push 1182143011(=0x46761223)
+603     : push 3735879754(=0xdead004a)
+608     : STORE32
+609     : push 1421780421(=0x54bea5c5)
+614     : push 3735879758(=0xdead004e)
+619     : STORE32
+...
+...
+...
+752     : push 1461238533(=0x5718bb05)
+757     : push 3735879810(=0xdead0082)
+762     : STORE32
+763     : push 88144731(=0x540fb5b)
+768     : push 3735879814(=0xdead0086)
+773     : STORE32
+
+# 0xDEAD0000番地に値0x06D35BCDを格納。これは何かのキー?
+522     : push 114514893(=0x6d35bcd)
+527     : push 3735879680(=0xdead0000)
+532     : STORE32
+
+# 入力結果を0xdead000a以降に格納------------
+55      : WRITE
+56      : push 64(=0x40)
+61      : push 3735879690(=0xdead000a)
+66      : READ
+
+# [0xdead0000](=0x6d35bcd :初期値)をLOAD後、
+# [0xdead0000]へ ((0x77f*[0xdead0000]-0x32a)%0x305eb3ea) としてSTORE
+# 597で スタックトップに「~((呼び出し時のtop) xor (更新後の[0xdead0000]))」をpushした状態でreturn
+# ~ はビット反転
+534     : push 3735879680(=0xdead0000)
+539     : LOAD32
+540     : push 1919(=0x77f)
+545     : MUL
+546     : push 810(=0x32a)
+551     : push 1(=0x1)
+556     : XCHG
+557     : SUB
+558     : push 811512810(=0x305eb3ea)
+563     : push 1(=0x1)
+568     : XCHG
+569     : MOD
+570     : push 0(=0x0)
+575     : DUP
+576     : push 3735879680(=0xdead0000)
+581     : STORE32
+582     : push 2(=0x2)
+587     : DUP
+588     : XOR
+589     : NOT
+590     : push 2(=0x2)
+595     : XCHG
+596     : POP
+597     : JMP
+```
+
+
+## 攻略スクリプト
+```
+#!/usr/bin/env python3
+
+# 0xdead0000の値の推移
+
+dead0000=[0x6d35bcd,0x2a5d2289,0x2f6875f9,0x2fad9e73,0x5b9550f,0x26c9c89f,0x11c0d0f,0x20e72c5d,0x13c96e3b,0x22929531,0x28cc5725,0x12466b89,0xc06913b,0x253aa61b,0x12a3213b,0x23b9fa5d,0xda0ec51,0x294b7005,0x2bbf4a7d,0x2d748c31,0x2b8ac467,0x478d51b,0x25080a67,0x629db31,0x3635d3b]
+
+print(len(dead0000))
+
+
+# [0xdead004a, 0xdead008a)の設定値
+expected = [0x46761223,0x54bea5c5,0x7a22e8f6,0x5db493c9,0x055d175e,0x022fcd33,0x42c46be6,0x6d10a0e8,0x53f4c278,0x7279ec2a,0x5491fb39,0x49ac421f,0x49ab3a37,0x47855812,0x5718bb05,0x0540fb5b]
+
+print(len(expected))
+
+
+
+
+def invert(lower, upper, loopCount):
+    for i in range(3):
+        tilde = upper ^ lower
+        xor1 = ~tilde
+        [lower, upper] = [xor1 ^ dead0000[(3*loopCount)+(2-i)+1], lower]
+    return [lower, upper]
+
+
+
+def get_bytes(s):
+    return int.from_bytes(s.encode("utf-8"), byteorder="little")
+def get_str(n):
+    return n.to_bytes(length=4, byteorder="little").decode("utf-8")
+
+
+for i in range(8):
+    [lower, upper] = invert(expected[2*i], expected[2*i+1], i)
+    print(f"{get_str(lower)}{get_str(upper)}", end="")
+print()
+```
