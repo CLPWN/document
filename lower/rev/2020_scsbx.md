@@ -386,7 +386,8 @@ with open("seccon.bin", "rb") as f:
 - 符号化した入力(0xDEAD000Aからの0x40バイト)と、展開しておいた符号化済みのフラグ値(0xDEAD004Aからの0x40バイト)を比較
   - 入力を8byte単位で処理し、計算結果が特定8byteに一致するか確認。それを0x40byte分繰り返す
 - それらが一致したらCorrect, 一致しなければWrongと出力
-```
+
+```a.asm
 # フラグをメモリ上に展開
 # push 値指定 => push アドレス指定 => STOREで格納
 598     : push 1182143011(=0x46761223)
@@ -448,7 +449,7 @@ with open("seccon.bin", "rb") as f:
 
 
 ## 攻略スクリプト
-```
+```scs.py
 #!/usr/bin/env python3
 
 # 0xdead0000の値の推移
