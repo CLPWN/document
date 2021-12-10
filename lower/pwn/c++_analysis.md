@@ -115,6 +115,7 @@ struct Cock: Bird {
 - c++filt コマンドを通すとソースコード中の表記で関数が表示されるので，可読性が高まる。
 ```
 $ objdump -d -M intel birdcage | c++filt | grep sing
+$ objdump -d -M intel birdcage | c++filt > birdcage.txt
 ```
 
 ## Birdcageの脆弱性
@@ -236,11 +237,17 @@ fd と bk はリストの前後の要素を指すポインタ。 他の bin と�
 
 ![ヒープとスタック](https://brain.cc.kogakuin.ac.jp/~kanamaru/lecture/MP/final/part06/img6.png "ヒープとスタックの図")
 
-攻略方法としては、前述のとおり string::_M_p を書き換えることで、GOT から libc のアドレスを読み出す。
+攻略方法としては、ヒープ上に偽の vtable を作り、オブジェクトの vtable へのポインタを書き換える。
 
-birdcage の脆弱性で直接書き換えることができるのはヒープだけなので、ヒープ上に偽の vtable を作り、オブジェクトの vtable へのポインタを書き換える。
+偽の vtable のアドレスのためにヒープのアドレスが必要になるので、 cage[0] から読み出す。
 
-偽の vtable のアドレスのためにヒープのアドレスが必要になるので、cage[0] から読み出す。
+> p2.vtableはメンバ関数を呼び出すときに参照されるため、 元の値を書き込むことを忘れない!!
+
+parrot を使い、捕まえた時に喋らせる言葉を入力するところで攻撃処理を入力。
+
+sing, releaseで発動するという流れで進める。
+
+> ヒープやvtable, c++の入出力処理を理解すれば、あとはlogin3の要領でいけるはず(今回はpwntoolsも使えるし)
 
 
 ### 攻略スクリプト
