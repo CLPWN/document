@@ -447,6 +447,28 @@ with open("seccon.bin", "rb") as f:
 597     : JMP
 ```
 
+### FLAG解読鍵の計算
+pythonだとなぜかうまくいかなかったので、cを使用
+```a.c
+#include <stdint.h>
+#include <stdio.h>
+
+uint32_t dead0000 = 0x06D35BCD;
+
+uint32_t random_num() {
+  // 00000216
+  dead0000 = (dead0000 * 0x77F - 0x32A) % 0x305EB3EA;
+}
+
+int main(){
+for (int i = 0; i < 26; i++) {
+        random_num();
+	printf("%x\n", dead0000);
+      
+} 
+  return 0;
+}
+```
 
 ## 攻略スクリプト
 ```scs.py
@@ -460,9 +482,8 @@ print(len(dead0000))
 
 
 # [0xdead004a, 0xdead008a)の設定値
-expected = [0x46761223,0x54bea5c5,0x7a22e8f6,0x5db493c9,0x055d175e,0x022fcd33,0x42c46be6,0x6d10a0e8,0x53f4c278,0x7279ec2a,0x5491fb39,0x49ac421f,0x49ab3a37,0x47855812,0x5718bb05,0x0540fb5b]
+decrypted = [0x46761223,0x54bea5c5,0x7a22e8f6,0x5db493c9,0x055d175e,0x022fcd33,0x42c46be6,0x6d10a0e8,0x53f4c278,0x7279ec2a,0x5491fb39,0x49ac421f,0x49ab3a37,0x47855812,0x5718bb05,0x0540fb5b]
 
-print(len(expected))
 
 
 
@@ -483,7 +504,7 @@ def get_str(n):
 
 
 for i in range(8):
-    [lower, upper] = invert(expected[2*i], expected[2*i+1], i)
+    [lower, upper] = invert(decrypted[2*i], decrypted[2*i+1], i)
     print(f"{get_str(lower)}{get_str(upper)}", end="")
 print()
 ```
