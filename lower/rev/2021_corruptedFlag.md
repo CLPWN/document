@@ -2,6 +2,17 @@
 
 > 参考: [SECCON CTF 2021作問者Writeup - CTFするぞ(ptr-yudaiさん:作問者)](https://ptr-yudai.hatenablog.com/entry/2021/12/19/232158)
 
+## 問題
+テキストファイルをエンコード(暗号化?)する実行ファイル"corrupt"と，壊れたFlagファイル"flag.txt.enc"
+```
+�R�9d^O�o��;{`�53s`^^f�i��\^Z���!pX2?^Ff3`8^Tg��!|X^Z2�!��l6^C�i���4���!s(4�ǂ�j�^^��̂ai^H^_>�I�aȜf��Ai�^Y2��!a^H^X�͜�^AÜ^^���!Ӝl63�М!��^^^^WZ^@
+```
+が渡される。
+
+"corrupt"の処理を読み解き，flag.txt.encを元のflagに復元する処理を作る。
+
+
+## 解き方
 逆アセンブラソフトを通して処理を見ると，**4ビットを7ビットに拡張する処理をフラグに対して行っている**。 
 
 処理の内容としては，**誤り訂正が可能なビットをXORで作って3ビット拡張**するというもの。 
@@ -14,7 +25,17 @@
 - パリティ検査，誤り訂正など(新大では情報理論(情シス3年の講義)でやる予定)を理解する
 
 
+## 手順
+### 逆アセンブル(radare2を使用)
+> radare2を入れていない人はここでインストール
+> sudo apt install radare2
 
+初めにfileコマンドでファイルの種類を確認しておく。
+```a.sh
+% file corrupt
+corrupt: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=df82b674f179982a41f1d195ca9e95407c0edd87, for GNU/Linux 3.2.0, not stripped
+```
+corruptが実行ファイルであることが確認できたので， [r2 ファイル名]で解析を始める。
 
 ```a.asm
 % r2 corrupt  
