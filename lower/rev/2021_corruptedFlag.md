@@ -35,7 +35,7 @@
 % file corrupt
 corrupt: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=df82b674f179982a41f1d195ca9e95407c0edd87, for GNU/Linux 3.2.0, not stripped
 ```
-corruptが実行ファイルであることが確認できたので， [r2 ファイル名]で解析を始める。
+corruptが実行ファイルであることが確認できたので， **[r2 ファイル名]**で解析を始める。
 
 ```a.asm
 % r2 corrupt  
@@ -50,6 +50,11 @@ Warning: run r2 with -e bin.cache=true to fix relocations in disassembly
 [x] Propagate noreturn information (aanr)
 [x] Finding function preludes
 [x] Enable constraint types analysis for variables
+```
+ 
+ **afl** で，使用されている関数を調べる。
+ 
+```a.asm
 [0x000012e0]> afl
 0x000012e0    1 46           entry0
 0x00001310    4 41   -> 34   sym.deregister_tm_clones
@@ -88,6 +93,14 @@ Warning: run r2 with -e bin.cache=true to fix relocations in disassembly
 0x000010b0    1 15           fcn.000010b0
 0x000010c0    1 15           fcn.000010c0
 0x000010d0    1 15           fcn.000010d0
+```
+
+
+ なお，大抵は，main(または，それに準ずる関数)に基本の処理が書かれているので，そのあたりを見ていく。
+ 
+ 各関数に絞って逆アセンブルを行う場合は **[pdf@関数名]** 。
+
+```a.asm
 [0x000012e0]> pdf@main
             ; DATA XREF from entry0 @ 0x1301
 ┌ 234: int main (int argc, char **argv, char **envp);
