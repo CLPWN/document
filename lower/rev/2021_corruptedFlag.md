@@ -171,7 +171,7 @@ Warning: run r2 with -e bin.cache=true to fix relocations in disassembly
 # 解法のソースコード
 > 引用元: [SECCON CTF 2021作問者Writeup - CTFするぞ(ptr-yudaiさん:作問者)](https://ptr-yudai.hatenablog.com/entry/2021/12/19/232158)
 
-```
+```a.py
 with open("flag.txt.enc", "rb") as f:
     enc = f.read()
 def bits(b):
@@ -184,7 +184,7 @@ try:
     output = []
     while True:
         bits = []
-        for i in range(7): # パリティ検査
+        for i in range(7): # ビットの検査。ハミング符号?
             bits.append(next(bs))
         c1 = bits[6] ^ bits[4] ^ bits[2] ^ bits[0]
         c2 = bits[5] ^ bits[4] ^ bits[1] ^ bits[0]
